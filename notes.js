@@ -20,10 +20,22 @@ const addNote = (title, body) => {
   } else {
     console.log('Note title taken!');
   }
-  
-  console.log(notes);
 }
 
+const removeNote = (title) => {
+  const notes = loadNotes();
+  const notesToKeep = notes.filter(note => {
+    return note.title !== title;
+  })
+  if(notesToKeep.length === notes.length) {
+    console.log('No note with that title exists')
+  } else {
+    saveNotes(notesToKeep);
+    console.log('Note removed!');
+  }
+}
+
+// Helper Functions
 const saveNotes = (notes) => {
   const dataJSON = JSON.stringify(notes);
   fs.writeFileSync('notes.json', dataJSON);
@@ -39,7 +51,9 @@ const loadNotes = () => {
   }
 }
 
+// Exports
 module.exports = {
   getNotes,
-  addNote
+  addNote,
+  removeNote
 };
